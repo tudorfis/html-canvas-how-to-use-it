@@ -8,7 +8,7 @@ onload = _ => {
         y: 100, 
         distance: 100,
         angle: 0,
-        animatingMethod: 'drawMathSin'
+        animatingMethod: 'drawMouse'
     })
 
     effect.animate()
@@ -22,4 +22,8 @@ addEventListener( 'resize', _ => {
     effect.distance = 10
 
     effect.animate()
+})
+
+addEventListener( 'mousemove', ({ x, y }) => {
+    Object.assign( effect.mouse, { x, y })
 })

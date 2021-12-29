@@ -7,6 +7,11 @@ class Effect {
         this.angle = angle
         this.animatingMethod = animatingMethod
 
+        this.mouse = {
+            x: 0,
+            y: 0
+        }
+
         this.build()
     }
     build() {
@@ -17,6 +22,7 @@ class Effect {
 
         Object.assign( this.ctx, {
             'strokeStyle': 'white',
+            'lineWidth': '3',
         })
         
         document.body.append( this.canvas )
@@ -43,7 +49,7 @@ class Effect {
         const { ctx, x, y, distance } = this
 
         ctx.beginPath()
-        
+
         ctx.moveTo( x, y )
         ctx.lineTo( 
             distance + Math.cos( this.angle ) * distance, 
@@ -52,6 +58,14 @@ class Effect {
 
         ctx.stroke()
         this.angle += 0.1
+    }
+    drawMouse() {
+        const { ctx, mouse, canvas } = this
+
+        ctx.beginPath()
+        ctx.moveTo( canvas.width / 2, canvas.height / 2 )
+        ctx.lineTo( mouse.x, mouse.y )
+        ctx.stroke()
     }
     animate() {
         this.clearCanvas()
