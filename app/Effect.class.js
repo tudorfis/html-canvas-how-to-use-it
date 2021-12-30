@@ -7,6 +7,11 @@ class Effect {
         this.angle = angle
         this.animatingMethod = animatingMethod
 
+        this.prevTimestamp = 0
+        this.timer = 0
+        this.fps = 60
+        this.interval = 1000 / this.fps
+
         this.mouse = {
             x: 0,
             y: 0
@@ -67,9 +72,19 @@ class Effect {
         ctx.lineTo( mouse.x, mouse.y )
         ctx.stroke()
     }
-    animate() {
-        this.clearCanvas()
-        this[ this.animatingMethod ]()
+    animate( timestamp = 0 ) {
+        const deltaTime = timestamp - this.prevTimestamp
+        this.prevTimestamp = timestamp
+
+        if ( this.timer > this.interval ) {
+            this.clearCanvas()
+            this[ this.animatingMethod ]()
+            this.timer = 0
+
+        } else {
+            this.timer += deltaTime
+        }
+        
         this.animationFrame = requestAnimationFrame( this.animate.bind( this ) )
     }
     clearCanvas() {
